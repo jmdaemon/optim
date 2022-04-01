@@ -8,3 +8,5 @@ edition = "2021"
 [dependencies]
 clap = "3.0.14"
 oxipng = "5.0.1"
+log = "0.4.16"
+pretty_env_logger = "0.4.0"
