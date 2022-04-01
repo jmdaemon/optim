@@ -1,4 +1,5 @@
 use clap::{Arg, App, ArgMatches};
+extern crate oxipng;
 use std::path::{Path, PathBuf}; 
 
 use std::process::exit;
@@ -16,10 +17,25 @@ fn main() {
         .about("Precisely optimizes the sizes of various images")
         .arg(Arg::new("input").help("Input image file path"))
         .arg(Arg::new("output").help("Output image file path"))
+        .arg(Arg::new("optimizer").help("Optimizer to use"))
         .get_matches();
-    let input: PathBuf = getfp("input", &matches);
-    let output: PathBuf = getfp("input", &matches);
 
-    println!("Input {}\nOutput {}", input.display(), output.display());
+    let input: PathBuf = getfp("input", &matches);
+    let output: PathBuf = getfp("output", &matches);
+    let optimizer = matches.value_of("optimizer").unwrap_or("oxipng");
+
+    println!("Input {}\nOutput {}\nOptimizer {}", input.display(), output.display(), optimizer);
+
+    match optimizer {
+        //"oxipng" => {
+        _ => {
+            let infile = oxipng::InFile::Path(input);
+            let outfile = oxipng::OutFile::Path(Some(output));
+            let options = oxipng::Options::from_preset(4);
+            let png = oxipng::optimize(&infile, &outfile, &options);
+            println!("{:?}\n", png);
+        }
+    }
+
 }
 
