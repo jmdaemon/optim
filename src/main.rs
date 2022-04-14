@@ -1,6 +1,7 @@
 extern crate oxipng;
 use clap::{Arg, App, ArgMatches};
 use log::{debug, error, info};
+use oxipng::PngError;
 use std::path::{Path, PathBuf}; 
 use std::process::exit;
 
@@ -26,6 +27,15 @@ fn build_cli() -> App<'static> {
     app
 }
 
+/// Optimize the file size of the png image using oxipng
+fn oxipng_optimize(input: PathBuf, output: PathBuf) -> Result<(), PngError> {
+    let infile = oxipng::InFile::Path(input);
+    let outfile = oxipng::OutFile::Path(Some(output));
+    let options = oxipng::Options::from_preset(4);
+    let png = oxipng::optimize(&infile, &outfile, &options);
+    png
+}
+
 fn main() {
     pretty_env_logger::init();
     let matches = build_cli().get_matches();
@@ -39,10 +49,7 @@ fn main() {
     match optimizer {
         //"oxipng" => {
         _ => {
-            let infile = oxipng::InFile::Path(input);
-            let outfile = oxipng::OutFile::Path(Some(output));
-            let options = oxipng::Options::from_preset(4);
-            let png = oxipng::optimize(&infile, &outfile, &options);
+            let png = oxipng_optimize(input, output);
             info!("{:?}\n", png);
         }
     }
