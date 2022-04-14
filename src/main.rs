@@ -21,9 +21,15 @@ fn build_cli() -> App<'static> {
         .version("0.1.0")
         .author("Joseph Diza <josephm.diza@gmail.com>")
         .about("Precisely optimizes the sizes of various images")
-        .arg(Arg::new("input").help("Input image file path"))
-        .arg(Arg::new("output").help("Output image file path"))
-        .arg(Arg::new("optimizer").help("Optimizer to use"));
+        .arg(Arg::new("input")
+            .help("Input image file path"))
+        .arg(Arg::new("output")
+            .help("Output image file path"))
+        .arg(Arg::new("optimizer")
+            .short('o')
+            .long("optimizer")
+            .default_value("oxipng")
+            .help("Optimizer to use. Optimizers available: [oxipng]"));
     app
 }
 
@@ -42,7 +48,7 @@ fn main() {
 
     let input: PathBuf = getfp("input", &matches);
     let output: PathBuf = getfp("output", &matches);
-    let optimizer = matches.value_of("optimizer").unwrap_or("oxipng");
+    let optimizer = matches.value_of("optimizer").unwrap();
 
     debug!("Input {}\nOutput {}\nOptimizer {}", input.display(), output.display(), optimizer);
 
