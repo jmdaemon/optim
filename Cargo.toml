@@ -10,3 +10,7 @@ clap = "3.1.8"
 oxipng = "5.0.1"
 log = "0.4.16"
 pretty_env_logger = "0.4.0"
+wasm-bindgen = "0.2"
+
+#[lib]
+#crate-type = ["cdylib"]

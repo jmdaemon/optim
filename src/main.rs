@@ -1,7 +1,11 @@
-extern crate oxipng;
+// Optim Modules
+use optim::optimizer::oxipng_optimize;
+
+// Third Party Crates
 use clap::{Arg, Command, ArgMatches};
 use log::{debug, error, info};
-use oxipng::PngError;
+
+// Standard Library
 use std::path::{Path, PathBuf}; 
 use std::process::exit;
 
@@ -31,15 +35,6 @@ fn build_cli() -> Command<'static> {
             .default_value("oxipng")
             .help("Optimizer to use. Optimizers available: [oxipng]"));
     app
-}
-
-/// Optimize the file size of the png image using oxipng
-fn oxipng_optimize(input: PathBuf, output: PathBuf) -> Result<(), PngError> {
-    let infile = oxipng::InFile::Path(input);
-    let outfile = oxipng::OutFile::Path(Some(output));
-    let options = oxipng::Options::from_preset(4);
-    let png = oxipng::optimize(&infile, &outfile, &options);
-    png
 }
 
 fn main() {
