@@ -1,5 +1,5 @@
 extern crate oxipng;
-use clap::{Arg, App, ArgMatches};
+use clap::{Arg, Command, ArgMatches};
 use log::{debug, error, info};
 use oxipng::PngError;
 use std::path::{Path, PathBuf}; 
@@ -16,8 +16,8 @@ fn getfp(opt: &str, matches: &ArgMatches) -> PathBuf {
 }
 
 /// Create the command line interface
-fn build_cli() -> App<'static> {
-    let app = App::new("Optim")
+fn build_cli() -> Command<'static> {
+    let app = Command::new("Optim")
         .version("0.1.0")
         .author("Joseph Diza <josephm.diza@gmail.com>")
         .about("Precisely optimizes the sizes of various images")
