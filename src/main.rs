@@ -53,10 +53,12 @@ fn main() {
     debug!("Input {}\nOutput {}\nOptimizer {}", input.display(), output.display(), optimizer);
 
     match optimizer {
-        //"oxipng" => {
-        _ => {
+        "oxipng" => {
             let png = oxipng_optimize(input, output);
             info!("{:?}\n", png);
+        }
+        _ => {
+            error!("Unable to determine optimizer");
         }
     }
 
